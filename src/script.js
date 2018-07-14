@@ -10,6 +10,7 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
       $scope.defaultCity +
       '&appid=' +
       apiKey;
+    console.log('url', url);
     $http.get(url).success(function(data) {
       console.log(data);
     });

@@ -13,7 +13,7 @@
         <h1>Your Forecast</h1>
         <div class="selectZipCode">
             <input ng-model="city" placeholder="Zip Code" class="addZipCode" />
-            <button>Search</button>
+            <button ng-click="getWeather()">Search</button>
             {{city}}
         </div>
         <div class="results">
