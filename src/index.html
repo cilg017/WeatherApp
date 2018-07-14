@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Weather App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script> -->
+    <script src="script.js"></script>
+</head>
+
+<body ng-app="weatherApp" ng-controller="weatherAppController">
+    <div class="main">
+        <h1>Your Forecast</h1>
+        <div class="selectZipCode">
+            <input ng-model="city" placeholder="Zip Code" class="addZipCode" />
+            <button>Search</button>
+            {{city}}
+        </div>
+        <div class="results">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
