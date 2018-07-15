@@ -3,6 +3,42 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
   $scope.city = '';
   $scope.fiveDayForecast = [];
   $scope.defaultCity = '60661';
+
+  $scope.getLocation = function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        $scope.showPosition,
+        $scope.showError
+      );
+    } else {
+      x.innerHTML = 'Geolocation is not supported by this browser.';
+    }
+  };
+
+  $scope.showPosition = function(position) {
+    // x.innerHTML =
+    //   'Latitude: ' +
+    //   position.coords.latitude +
+    //   '<br>Longitude: ' +
+    //   position.coords.longitude;
+    var string = position.coords.latitute + ' ' + position.coords.longitude;
+    console.log('coords ', string);
+  };
+
+  $scope.showError = function(error) {
+    switch (error.code) {
+      default:
+        $scope.city = $scope.defaultCity;
+        $scope.getWeather();
+        break;
+    }
+  };
+
+  $scope.useDefault = function() {
+    $scope.city = $scope.defaultCity;
+    $scope.getWeather();
+  };
+
   $scope.getWeather = function() {
     var apiKey = '1791c86fe68c499a0bc5e701f89d0da4';
     var currentWeatherUrl =

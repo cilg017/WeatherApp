@@ -6,14 +6,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script> -->
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body ng-app="weatherApp" ng-controller="weatherAppController">
     <div class="main">
         <h1>Your Forecast</h1>
+        <div class="userPrompt">
+            <div>Would you like to get the weather for your current location?</div>
+            <span>
+                <button ng-click="getLocation()">YES</button>
+                <button ng-click="useDefault()">NO</button>
+            </span>
+        </div>
+
         <div class="selectZipCode">
             <input ng-model="city" placeholder="Zip Code" class="addZipCode" />
-            <button ng-click="getWeather()">Search</button>
+            <button ng-click="getWeather()" class="searchButton">SEARCH</button>
         </div>
         <div class="results">
             <div class="currentWeather">
@@ -23,7 +32,7 @@
                 <h4>Today's low: {{currentLow}}</h4>
 
             </div>
-            <div class="fiveDayForecast">
+            <div layout="row" class="fiveDayForecast">
                 <h2>Five-Day Forecast for {{name}}</h2>
                 <ul>
                     <li ng-repeat="day in fiveDayForecast">
