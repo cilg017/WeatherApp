@@ -12,7 +12,7 @@
 <body ng-app="weatherApp" ng-controller="weatherAppController">
     <div class="main">
         <h1>Your Forecast</h1>
-        <div class="userPrompt">
+        <div ng-hide="showWeatherDetails" class="userPrompt">
             <div>Would you like to get the weather for your current location?</div>
             <span>
                 <button ng-click="getLocation()">YES</button>
@@ -20,28 +20,30 @@
             </span>
         </div>
 
-        <div class="selectZipCode">
-            <input ng-model="city" placeholder="Zip Code" class="addZipCode" />
-            <button ng-click="getWeather()" class="searchButton">SEARCH</button>
-        </div>
-        <div class="results">
-            <div class="currentWeather">
-                <h2>Today's weather in {{name}}</h2>
-                <h4>Current temperature: {{currentTemp}}</h4>
-                <h4>Today's high: {{currentHigh}}</h4>
-                <h4>Today's low: {{currentLow}}</h4>
-
+        <div ng-show="showWeatherDetails" class="weatherSearchAndDisplay">
+            <div class="selectZipCode">
+                <input ng-model="city" placeholder="Zip Code" class="addZipCode" />
+                <button ng-click="getWeatherByZip()" class="searchButton">SEARCH</button>
             </div>
-            <div layout="row" class="fiveDayForecast">
-                <h2>Five-Day Forecast for {{name}}</h2>
-                <ul>
-                    <li ng-repeat="day in fiveDayForecast">
-                        <h4>High: {{day.main.temp_max}}</h4>
-                        <h4>Low: {{day.main.temp_min}}</h4>
+            <div class="results">
+                <div class="currentWeather">
+                    <h2>Today's weather in {{name}}</h2>
+                    <h4>Current temperature: {{currentTemp}}</h4>
+                    <h4>Today's high: {{currentHigh}}</h4>
+                    <h4>Today's low: {{currentLow}}</h4>
 
-                    </li>
-                </ul>
+                </div>
+                <div layout="row" class="fiveDayForecast">
+                    <h2>Five-Day Forecast for {{name}}</h2>
+                    <ul>
+                        <li ng-repeat="day in fiveDayForecast">
+                            <h4>High: {{day.main.temp_max}}</h4>
+                            <h4>Low: {{day.main.temp_min}}</h4>
 
+                        </li>
+                    </ul>
+
+                </div>
             </div>
         </div>
     </div>

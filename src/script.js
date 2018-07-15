@@ -1,81 +1,119 @@
 var myWeatherApp = angular.module('weatherApp', []);
 myWeatherApp.controller('weatherAppController', function($scope, $http) {
-  $scope.city = '';
-  $scope.fiveDayForecast = [];
-  $scope.defaultCity = '60661';
+  var vm = $scope;
+  vm.city = '';
+  vm.fiveDayForecast = [];
+  vm.defaultCity = '60661';
+  vm.apiKey = '1791c86fe68c499a0bc5e701f89d0da4';
+  vm.showWeatherDetails = false; //default to false so first action (user chooses to get weather by location or not) is clear
 
-  $scope.getLocation = function() {
+  //Request user's location
+  vm.getLocation = function() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        $scope.showPosition,
-        $scope.showError
-      );
+      navigator.geolocation.getCurrentPosition(vm.showPosition, vm.showError);
     } else {
-      x.innerHTML = 'Geolocation is not supported by this browser.';
+      vm.useDefault();
     }
   };
 
-  $scope.showPosition = function(position) {
-    // x.innerHTML =
-    //   'Latitude: ' +
-    //   position.coords.latitude +
-    //   '<br>Longitude: ' +
-    //   position.coords.longitude;
-    var string = position.coords.latitute + ' ' + position.coords.longitude;
+  //Get user's coordinates and call api with coordinates
+  vm.showPosition = function(position) {
+    var string = position.coords.latitude + ' ' + position.coords.longitude;
+    vm.lat = position.coords.latitude;
+    vm.lon = position.coords.longitude;
     console.log('coords ', string);
+    vm.getWeatherByCoords();
   };
 
-  $scope.showError = function(error) {
+  //All errors default to 60661 weather
+  vm.showError = function(error) {
     switch (error.code) {
       default:
-        $scope.city = $scope.defaultCity;
-        $scope.getWeather();
+        vm.useDefault();
         break;
     }
   };
 
-  $scope.useDefault = function() {
-    $scope.city = $scope.defaultCity;
-    $scope.getWeather();
+  //Fetch weather for 60661
+  vm.useDefault = function() {
+    vm.city = vm.defaultCity;
+    vm.getWeatherByZip();
   };
 
-  $scope.getWeather = function() {
-    var apiKey = '1791c86fe68c499a0bc5e701f89d0da4';
-    var currentWeatherUrl =
-      'http://api.openweathermap.org/data/2.5/weather?q=' +
-      $scope.city +
-      '&appid=' +
-      apiKey;
-    var forecastUrl =
-      'http://api.openweathermap.org/data/2.5/forecast?q=' +
-      $scope.city +
-      '&appid=' +
-      apiKey;
+  //convert temp from Kelvin to Celcius
+  vm.convertTempterature = function(temp) {
+    var convertedTemp = (temp - 273).toFixed(1) + 'C';
+    return convertedTemp;
+  };
 
-    $scope.convertTempterature = function(temp) {
-      var convertedTemp = (temp - 273).toFixed(1) + 'C';
-      return convertedTemp;
-    };
+  //gets weather by user's coordinates
+  vm.getWeatherByCoords = function() {
+    vm.showWeatherDetails = true;
+    console.log('weather by coords');
+    var currentWeatherUrl =
+      'http://api.openweathermap.org/data/2.5/weather?lat=' +
+      vm.lat +
+      '&lon=' +
+      vm.lon +
+      '&appid=' +
+      vm.apiKey;
+
+    var forecastUrl =
+      'http://api.openweathermap.org/data/2.5/forecast?lat=' +
+      vm.lat +
+      '&lon=' +
+      vm.lon +
+      '&appid=' +
+      vm.apiKey;
+
     $http.get(currentWeatherUrl).success(function(currentWeatherData) {
-      $scope.name = currentWeatherData.name;
-      $scope.currentTemp = $scope.convertTempterature(
-        currentWeatherData.main.temp
-      );
-      $scope.currentHigh = $scope.convertTempterature(
-        currentWeatherData.main.temp_max
-      );
-      $scope.currentLow = $scope.convertTempterature(
-        currentWeatherData.main.temp_min
-      );
+      vm.name = currentWeatherData.name;
+      vm.currentTemp = vm.convertTempterature(currentWeatherData.main.temp);
+      vm.currentHigh = vm.convertTempterature(currentWeatherData.main.temp_max);
+      vm.currentLow = vm.convertTempterature(currentWeatherData.main.temp_min);
     });
     $http.get(forecastUrl).success(function(forecastData) {
       for (let i = 0; i < 5; i++) {
-        $scope.fiveDayForecast.push(forecastData.list[i]);
-        $scope.fiveDayForecast[i].main.temp_max = $scope.convertTempterature(
-          $scope.fiveDayForecast[i].main.temp_max
+        vm.fiveDayForecast.push(forecastData.list[i]);
+        vm.fiveDayForecast[i].main.temp_max = vm.convertTempterature(
+          vm.fiveDayForecast[i].main.temp_max
         );
-        $scope.fiveDayForecast[i].main.temp_min = $scope.convertTempterature(
-          $scope.fiveDayForecast[i].main.temp_min
+        vm.fiveDayForecast[i].main.temp_min = vm.convertTempterature(
+          vm.fiveDayForecast[i].main.temp_min
+        );
+      }
+    });
+  };
+
+  //gets weather by zip code
+  vm.getWeatherByZip = function() {
+    vm.showWeatherDetails = true;
+    console.log('weather by zip');
+    var currentWeatherUrl =
+      'http://api.openweathermap.org/data/2.5/weather?q=' +
+      vm.city +
+      '&appid=' +
+      vm.apiKey;
+    var forecastUrl =
+      'http://api.openweathermap.org/data/2.5/forecast?q=' +
+      vm.city +
+      '&appid=' +
+      vm.apiKey;
+
+    $http.get(currentWeatherUrl).success(function(currentWeatherData) {
+      vm.name = currentWeatherData.name;
+      vm.currentTemp = vm.convertTempterature(currentWeatherData.main.temp);
+      vm.currentHigh = vm.convertTempterature(currentWeatherData.main.temp_max);
+      vm.currentLow = vm.convertTempterature(currentWeatherData.main.temp_min);
+    });
+    $http.get(forecastUrl).success(function(forecastData) {
+      for (let i = 0; i < 5; i++) {
+        vm.fiveDayForecast.push(forecastData.list[i]);
+        vm.fiveDayForecast[i].main.temp_max = vm.convertTempterature(
+          vm.fiveDayForecast[i].main.temp_max
+        );
+        vm.fiveDayForecast[i].main.temp_min = vm.convertTempterature(
+          vm.fiveDayForecast[i].main.temp_min
         );
       }
     });
