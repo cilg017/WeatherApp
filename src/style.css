@@ -25,3 +25,11 @@ button {
   background-color: #1a7894;
   color: #fcfdfe;
 }
+
+.fiveDayForecast {
+  border: 5px solid red;
+}
+
+.forecastContainer {
+  display: inline;
+}

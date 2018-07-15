@@ -48,7 +48,6 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
 
   //gets weather by user's coordinates
   vm.getWeatherByCoords = function() {
-    vm.showWeatherDetails = true;
     console.log('weather by coords');
     var currentWeatherUrl =
       'http://api.openweathermap.org/data/2.5/weather?lat=' +
@@ -66,28 +65,11 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
       '&appid=' +
       vm.apiKey;
 
-    $http.get(currentWeatherUrl).success(function(currentWeatherData) {
-      vm.name = currentWeatherData.name;
-      vm.currentTemp = vm.convertTempterature(currentWeatherData.main.temp);
-      vm.currentHigh = vm.convertTempterature(currentWeatherData.main.temp_max);
-      vm.currentLow = vm.convertTempterature(currentWeatherData.main.temp_min);
-    });
-    $http.get(forecastUrl).success(function(forecastData) {
-      for (let i = 0; i < 5; i++) {
-        vm.fiveDayForecast.push(forecastData.list[i]);
-        vm.fiveDayForecast[i].main.temp_max = vm.convertTempterature(
-          vm.fiveDayForecast[i].main.temp_max
-        );
-        vm.fiveDayForecast[i].main.temp_min = vm.convertTempterature(
-          vm.fiveDayForecast[i].main.temp_min
-        );
-      }
-    });
+    vm.getWeather(currentWeatherUrl, forecastUrl);
   };
 
   //gets weather by zip code
   vm.getWeatherByZip = function() {
-    vm.showWeatherDetails = true;
     console.log('weather by zip');
     var currentWeatherUrl =
       'http://api.openweathermap.org/data/2.5/weather?q=' +
@@ -100,12 +82,19 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
       '&appid=' +
       vm.apiKey;
 
+    vm.getWeather(currentWeatherUrl, forecastUrl);
+  };
+
+  vm.getWeather = function(currentWeatherUrl, forecastUrl) {
+    vm.showWeatherDetails = true;
+
     $http.get(currentWeatherUrl).success(function(currentWeatherData) {
       vm.name = currentWeatherData.name;
       vm.currentTemp = vm.convertTempterature(currentWeatherData.main.temp);
       vm.currentHigh = vm.convertTempterature(currentWeatherData.main.temp_max);
       vm.currentLow = vm.convertTempterature(currentWeatherData.main.temp_min);
     });
+
     $http.get(forecastUrl).success(function(forecastData) {
       for (let i = 0; i < 5; i++) {
         vm.fiveDayForecast.push(forecastData.list[i]);

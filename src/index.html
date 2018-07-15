@@ -35,17 +35,17 @@
                 </div>
                 <div layout="row" class="fiveDayForecast">
                     <h2>Five-Day Forecast for {{name}}</h2>
-                    <ul>
-                        <li ng-repeat="day in fiveDayForecast">
-                            <h4>High: {{day.main.temp_max}}</h4>
-                            <h4>Low: {{day.main.temp_min}}</h4>
 
-                        </li>
-                    </ul>
-
+                    <span class="forecastContainer" ng-repeat="day in fiveDayForecast">
+                        <h4>High: {{day.main.temp_max}}</h4>
+                        <h4>Low: {{day.main.temp_min}}</h4>
+                    </span>
                 </div>
+
+
             </div>
         </div>
+    </div>
     </div>
 
 </body>
