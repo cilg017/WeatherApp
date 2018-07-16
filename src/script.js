@@ -18,7 +18,7 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
   //Getting date to get day of the week
   vm.date = new Date();
   vm.today = vm.date.getDay();
-  console.log('today ', vm.today);
+
   var dayIndex = vm.today;
   vm.nextFiveDays = [];
 
@@ -30,7 +30,6 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
     vm.nextFiveDays.push(vm.days[dayIndex + 1]);
     dayIndex += 1;
   }
-  console.log('next five days ', vm.nextFiveDays);
 
   //Request user's location
   vm.getLocation = function() {
@@ -46,7 +45,7 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
     var string = position.coords.latitude + ' ' + position.coords.longitude;
     vm.lat = position.coords.latitude;
     vm.lon = position.coords.longitude;
-    console.log('coords ', string);
+
     vm.getWeatherByCoords();
   };
 
@@ -73,7 +72,6 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
 
   //gets weather by user's coordinates
   vm.getWeatherByCoords = function() {
-    console.log('weather by coords');
     var currentWeatherUrl =
       'http://api.openweathermap.org/data/2.5/weather?lat=' +
       vm.lat +
@@ -95,7 +93,6 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
 
   //gets weather by zip code
   vm.getWeatherByZip = function() {
-    console.log('weather by zip');
     var currentWeatherUrl =
       'http://api.openweathermap.org/data/2.5/weather?q=' +
       vm.city +
