@@ -6,14 +6,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="script.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,700,900" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" -->
-    <!-- crossorigin="anonymous"> -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body ng-app="weatherApp" ng-controller="weatherAppController">
     <div class="main">
         <h1>Your Forecast</h1>
+
         <div ng-hide="showWeatherDetails" class="userPrompt">
             <div>Would you like to get the weather for your current location?</div>
             <span>
@@ -49,8 +48,9 @@
 
             </div>
         </div>
+
     </div>
-    </div>
+
 
 </body>
 
