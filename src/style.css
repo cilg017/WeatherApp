@@ -1,6 +1,7 @@
 .main {
   background-color: #f1f3f4;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
 }
 
 h1 {
@@ -26,10 +27,7 @@ button {
   color: #fcfdfe;
 }
 
-.fiveDayForecast {
-  border: 5px solid red;
-}
-
 .forecastContainer {
-  display: inline;
+  display: inline-block;
+  padding: 0 5px;
 }

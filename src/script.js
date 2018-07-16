@@ -2,10 +2,35 @@ var myWeatherApp = angular.module('weatherApp', []);
 myWeatherApp.controller('weatherAppController', function($scope, $http) {
   var vm = $scope;
   vm.city = '';
-  vm.fiveDayForecast = [];
   vm.defaultCity = '60661';
   vm.apiKey = '1791c86fe68c499a0bc5e701f89d0da4';
   vm.showWeatherDetails = false; //default to false so first action (user chooses to get weather by location or not) is clear
+  vm.days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ];
+
+  //Getting date to get day of the week
+  vm.date = new Date();
+  vm.today = vm.date.getDay();
+  console.log('today ', vm.today);
+  var dayIndex = vm.today;
+  vm.nextFiveDays = [];
+
+  for (let i = 0; i < 5; i++) {
+    //Check if day index is greater than 6; resets back to 0 to prevent undefined
+    if (dayIndex > 6) {
+      dayIndex = 0;
+    }
+    vm.nextFiveDays.push(vm.days[dayIndex + 1]);
+    dayIndex += 1;
+  }
+  console.log('next five days ', vm.nextFiveDays);
 
   //Request user's location
   vm.getLocation = function() {
@@ -87,6 +112,7 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
 
   vm.getWeather = function(currentWeatherUrl, forecastUrl) {
     vm.showWeatherDetails = true;
+    vm.fiveDayForecast = [];
 
     $http.get(currentWeatherUrl).success(function(currentWeatherData) {
       vm.name = currentWeatherData.name;
@@ -104,6 +130,7 @@ myWeatherApp.controller('weatherAppController', function($scope, $http) {
         vm.fiveDayForecast[i].main.temp_min = vm.convertTempterature(
           vm.fiveDayForecast[i].main.temp_min
         );
+        vm.fiveDayForecast[i].dayOfWeek = vm.nextFiveDays[i];
       }
     });
   };

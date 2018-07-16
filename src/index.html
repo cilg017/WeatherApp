@@ -4,8 +4,10 @@
 <head>
     <title>Weather App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script> -->
     <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -36,10 +38,11 @@
                 <div layout="row" class="fiveDayForecast">
                     <h2>Five-Day Forecast for {{name}}</h2>
 
-                    <span class="forecastContainer" ng-repeat="day in fiveDayForecast">
+                    <div class="forecastContainer" ng-repeat="day in fiveDayForecast">
+                        <h3>{{day.dayOfWeek}}</h3>
                         <h4>High: {{day.main.temp_max}}</h4>
                         <h4>Low: {{day.main.temp_min}}</h4>
-                    </span>
+                    </div>
                 </div>
 
 
